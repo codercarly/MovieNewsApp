@@ -17,6 +17,10 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.text.ParseException;
+
 
 /**
  * Methods related to requesting and receiving article data from Guardian API.
@@ -162,9 +166,11 @@ public class QueryUtility {
             // Create a JSONObject from the JSON response string
             JSONObject baseJsonResponse = new JSONObject(movieJSON);
 
-            // Extract the JSONArray associated with the key called "features",
-            // which represents a list of features (or movie articles).
-            JSONArray movieArray = baseJsonResponse.getJSONArray("features");
+            // Create the JSONObject with the key "response"
+            JSONObject responseJSONObject = baseJsonResponse.getJSONObject("response");
+
+            // Extract the JSONArray associated with the key called "results"
+            JSONArray movieArray = responseJSONObject.getJSONArray("results");
 
             // For each movie article in the movieArray, create an {@link Movie} object
             for (int i = 0; i < movieArray.length(); i++) {
@@ -172,35 +178,50 @@ public class QueryUtility {
                 // Get a single movie article at position i within the list of movie articles
                 JSONObject currentMovie = movieArray.getJSONObject(i);
 
-                // For a given movie article, extract the JSONObject associated with the
-                // key called "id", which represents a list of all properties
-                // for that article.
-                JSONObject id = currentMovie.getJSONObject("id");
+                // Extract the value for the key called "webTitle"
+                String title = currentMovie.getString("webTitle");
 
                 // Extract the value for the key called "sectionName"
-                String section = id.getString("sectionName");
+                String section = currentMovie.getString("sectionName");
 
-                // Extract the value for the key called "date"
-                String date = id.getString("webPublicationDate");
 
-                // For a given movie article, extract the JSONObject associated with the
-                // key called "webTitle", which represents a list of all properties
-                // for that article.
-                JSONObject webTitle = currentMovie.getJSONObject("webTitle");
+                // Extract the value for the key called "webPublicationDate"
+                String webDate = currentMovie.getString("webPublicationDate");
+                // The value the "webPublicationDate" will be converted to
+                String date = null;
+                // This is the time format from guardian JSON "2017-10-29T06:00:20Z"
+                // will be changed to 29-10-2017 format
+                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
+                try {
+                    Date newDate = format.parse(webDate);
+                    format = new SimpleDateFormat("dd-MM-yyyy");
+                    date = format.format(newDate);
+                } catch (ParseException e){
+                    Log.e(LOG_TAG,"Problem with parsing the date format");
 
-                // Extract the value for the key called "webTitle"
-                String title = webTitle.getString("webTitle");
+                }
 
-                // For a given movie article, extract the JSONObject associated with the
-                // key called "webUrl", which represents a list of all properties
-                // for that article.
-                JSONObject webUrl = currentMovie.getJSONObject("webUrl");
                 // Extract the value for the key called "url"
-                String url = webUrl.getString("webUrl");
+                String url = currentMovie.getString("webUrl");
 
-                // Create a new {@link Movie} object with the magnitude, location, time,
+                // Create a new array to get the author's name
+                JSONArray tagsArray = currentMovie.getJSONArray("tags");
+                String author = null;
+
+                if(tagsArray != null) {
+                    JSONObject tagsObject = tagsArray.optJSONObject(0);
+
+                    // Extract the name of the author
+                    if(tagsObject != null) {
+                        author = tagsObject.optString("webTitle");
+                    } else {
+                        author = "Unknown";
+                    }
+                }
+
+                // Create a new {@link Movie} object with the article title, section, contributor, date,
                 // and url from the JSON response.
-                Movie movie = new Movie(title, section, date, url);
+                Movie movie = new Movie(title, section, author, date, url);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 movies.add(movie);
