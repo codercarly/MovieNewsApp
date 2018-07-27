@@ -39,7 +39,7 @@ public class QueryUtility {
     }
 
     /**
-     * Query the USGS dataset and return a list of {@link Movie} objects.
+     * Query the Guardian API and return a list of {@link Movie} objects.
      */
     public static List<Movie> fetchMovieData(String requestUrl) {
         // LOG TAG
@@ -187,19 +187,6 @@ public class QueryUtility {
 
                 // Extract the value for the key called "webPublicationDate"
                 String webDate = currentMovie.getString("webPublicationDate");
-                // The value the "webPublicationDate" will be converted to
-                String date = null;
-                // This is the time format from guardian JSON "2017-10-29T06:00:20Z"
-                // will be changed to 29-10-2017 format
-                SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ssX");
-                try {
-                    Date newDate = format.parse(webDate);
-                    format = new SimpleDateFormat("dd-MM-yyyy");
-                    date = format.format(newDate);
-                } catch (ParseException e){
-                    Log.e(LOG_TAG,"Problem with parsing the date format");
-
-                }
 
                 // Extract the value for the key called "url"
                 String url = currentMovie.getString("webUrl");
@@ -221,7 +208,7 @@ public class QueryUtility {
 
                 // Create a new {@link Movie} object with the article title, section, contributor, date,
                 // and url from the JSON response.
-                Movie movie = new Movie(title, section, author, date, url);
+                Movie movie = new Movie(title, section, author, webDate, url);
 
                 // Add the new {@link Earthquake} to the list of earthquakes.
                 movies.add(movie);

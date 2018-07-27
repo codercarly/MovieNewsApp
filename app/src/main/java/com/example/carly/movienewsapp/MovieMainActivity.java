@@ -27,7 +27,7 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
      * URL for movie article data from the Guardian dataset
      */
     private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?q=movie&api-key=93247d35-fd14-4de7-9e47-9383b623283f";
+            "https://content.guardianapis.com/search?q=movie&show-tags=contributors&api-key=93247d35-fd14-4de7-9e47-9383b623283f";
 
     /**
      * Constant value for the movie loader ID. We can choose any integer.
@@ -98,8 +98,6 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
             // Initialize the loader.
             loaderManager.initLoader(MOVIE_LOADER_ID, null, this);
         } else {
-            // Otherwise display an error
-
             // First: hide loading indicator so error message will be visible
             View loadingIndicator = findViewById(R.id.loading_indicator);
             loadingIndicator.setVisibility(View.GONE);

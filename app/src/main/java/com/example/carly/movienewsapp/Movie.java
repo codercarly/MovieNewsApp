@@ -8,6 +8,9 @@ public class Movie {
     // The section name the article is assigned
     private String mSection;
 
+    // The article contributor
+    private String mAuthor;
+
     // The date the article was published
     private String mDate;
 
@@ -21,9 +24,10 @@ public class Movie {
      * @param date is the date the article was published
      * @param url is the website URL to read the article
      */
-    public Movie(String title, String section, String date, String url) {
+    public Movie(String title, String section, String author, String date, String url) {
         mTitle = title;
         mSection = section;
+        mAuthor = author;
         mDate = date;
         mUrl = url;
     }
@@ -37,6 +41,11 @@ public class Movie {
      * Get the section of the article
      */
     public String getSection() {return mSection;}
+
+    /*
+     * Get the contributor of the article
+     */
+    public String getAuthor() {return mAuthor;}
 
     /*
      * Get the date of the article
