@@ -17,10 +17,6 @@ import java.net.URL;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.text.ParseException;
-
 
 /**
  * Methods related to requesting and receiving article data from Guardian API.
@@ -202,7 +198,7 @@ public class QueryUtility {
                     if(tagsObject != null) {
                         author = tagsObject.optString("webTitle");
                     } else {
-                        author = "Unknown";
+                        author = "Guardian Staff";
                     }
                 }
 

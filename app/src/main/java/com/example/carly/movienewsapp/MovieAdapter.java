@@ -64,8 +64,6 @@ public class MovieAdapter extends ArrayAdapter<Movie> {
             e.printStackTrace();
         }
 
-        dateTextView.setText(currentMovie.getDate());
-
         // Return the listItemView layout containing 3 text views
         return listItemView;
 

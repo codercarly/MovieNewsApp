@@ -1,3 +1,32 @@
 <resources>
+    <!-- App name -->
     <string name="app_name">Movie News</string>
+
+    <!-- Message if movie news cannot be found -->
+    <string name="no_movies">No movie news found. Check back later!</string>
+
+    <!-- Message if no internet connection found -->
+    <string name="no_internet_connection">No internet connection.</string>
+
+    <!-- Movie list_item layout -->
+    <string name="section">Section: </string>
+    <string name="author">Author: </string>
+
+    <!-- Settings Activity -->
+    <string name="settings_menu_item">Settings</string>
+    <string name="settings_title">Movie News Settings</string>
+
+    <!-- Order By Preference -->
+    <string name="settings_order_by_label">Order By</string>
+    <string name="settings_order_by_key" translatable="false">order_by</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_date_value</string>
+
+    <!-- Order: Date Option -->
+    <string name="settings_order_by_date_label">Date</string>
+    <string name="settings_order_by_date_value" translatable="false">webPublicatonDate</string>
+
+    <!-- Order: Section Option -->
+    <string name="settings_order_by_section_label">Section</string>
+    <string name="settings_order_by_section_value" translatable="false">sectionName</string>
+
 </resources>

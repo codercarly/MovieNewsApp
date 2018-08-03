@@ -5,12 +5,16 @@ import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -26,9 +30,7 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
     /**
      * URL for movie article data from the Guardian dataset
      */
-    private static final String GUARDIAN_REQUEST_URL =
-            "https://content.guardianapis.com/search?q=movie&show-tags=contributors&api-key=93247d35-fd14-4de7-9e47-9383b623283f";
-
+    private static final String GUARDIAN_REQUEST_URL = "https://content.guardianapis.com/search";
     /**
      * Constant value for the movie loader ID. We can choose any integer.
      * This really only comes into play if you're using multiple loaders.
@@ -115,8 +117,26 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
         // LOG TAG
         Log.e(LOG_TAG, "NOTE: Create a new loader for the given URL.");
 
+        SharedPreferences sharedPrefs = PreferenceManager.getDefaultSharedPreferences(this);
+
+        String orderBy = sharedPrefs.getString(
+                getString(R.string.settings_order_by_key),
+                getString(R.string.settings_order_by_default)
+                );
+
+        // URI builder - query parameters
+        Uri baseUri = Uri.parse(GUARDIAN_REQUEST_URL);
+        Uri.Builder uriBuilder = baseUri.buildUpon();
+
+        uriBuilder.appendQueryParameter("q", "movie");
+        uriBuilder.appendQueryParameter("show-tags", "contributor");
+        uriBuilder.appendQueryParameter("pageSize", "25");
+        uriBuilder.appendQueryParameter("api-key", "93247d35-fd14-4de7-9e47-9383b623283f");
+        uriBuilder.appendQueryParameter("orderby", orderBy);
+
+
         // Create a new loader for the given URL
-        return new MovieLoader(this, GUARDIAN_REQUEST_URL);
+        return new MovieLoader(this, uriBuilder.toString());
     }
 
     @Override
@@ -128,14 +148,14 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
         View loadingIndicator = findViewById(R.id.loading_indicator);
         loadingIndicator.setVisibility(View.GONE);
 
-        // Set empty state text to display "No earthquakes found."
+        // Set empty state text to display "No movie news found."
         mEmptyStateTextView.setText(R.string.no_movies);
 
 
-        // Clear the adapter of previous earthquake data
+        // Clear the adapter of previous movie news data
         mAdapter.clear();
 
-        // If there is a valid list of {@link Earthquake}s, then add them to the adapter's
+        // If there is a valid list of {@link Movies}s, then add them to the adapter's
         // data set. This will trigger the ListView to update.
         if (movies != null && !movies.isEmpty()) {
             mAdapter.addAll(movies);
@@ -149,5 +169,23 @@ public class MovieMainActivity extends AppCompatActivity implements LoaderCallba
 
         // Loader reset, so we can clear out our existing data.
         mAdapter.clear();
+    }
+
+    @Override
+    // Initialize contents of Activity's settings menu
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+        if (id == R.id.action_settings) {
+            Intent settingsIntent = new Intent(this, SettingsActivity.class);
+            startActivity(settingsIntent);
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
