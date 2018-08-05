@@ -1,9 +1,9 @@
 <resources>
     <!-- App name -->
-    <string name="app_name">Movie News</string>
+    <string name="app_name">Hollywood News</string>
 
     <!-- Message if movie news cannot be found -->
-    <string name="no_movies">No movie news found. Check back later!</string>
+    <string name="no_movies">No Hollywood news found. Check back later!</string>
 
     <!-- Message if no internet connection found -->
     <string name="no_internet_connection">No internet connection.</string>
@@ -14,19 +14,27 @@
 
     <!-- Settings Activity -->
     <string name="settings_menu_item">Settings</string>
-    <string name="settings_title">Movie News Settings</string>
+    <string name="settings_title">Hollywood News Settings</string>
 
     <!-- Order By Preference -->
     <string name="settings_order_by_label">Order By</string>
     <string name="settings_order_by_key" translatable="false">order_by</string>
-    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_date_value</string>
+    <string name="settings_order_by_default" translatable="false">@string/settings_order_by_newest_value</string>
 
-    <!-- Order: Date Option -->
-    <string name="settings_order_by_date_label">Date</string>
-    <string name="settings_order_by_date_value" translatable="false">webPublicatonDate</string>
+    <!-- Order: Most Recent (Newest) Default Option -->
+    <string name="settings_order_by_newest_label">Most Recent</string>
+    <string name="settings_order_by_newest_value" translatable="false">newest</string>
 
-    <!-- Order: Section Option -->
-    <string name="settings_order_by_section_label">Section</string>
-    <string name="settings_order_by_section_value" translatable="false">sectionName</string>
+    <!-- Order: Film Section Option -->
+    <string name="settings_order_by_film_label">Film</string>
+    <string name="settings_order_by_film_value" translatable="false">film</string>
+
+    <!-- Order: Television Section Option -->
+    <string name="settings_order_by_television_label">Television</string>
+    <string name="settings_order_by_television_value" translatable="false">television</string>
+
+    <!-- Order: Music Section Option -->
+    <string name="settings_order_by_music_label">Music</string>
+    <string name="settings_order_by_music_value" translatable="false">music</string>
 
 </resources>
