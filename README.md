@@ -2,6 +2,8 @@
 
 This Movie News App is more appropriately called the Hollywood News App. This program was a 2-part project as part of the Udacity Android Basics Nanodegree. The program pulls data from the Guardian API and sorts it according to the settings selected by the user.
 
+ MovieNewsApp/ezgif.com-video-to-gif.gif 
+
 # Project Overview (Stage 1):
 - This project goal was to design an app that connects to the internet to provide news articles on any topic. 
 - The app will give the user regularly-updated news stories by connecting with the Guardian API.
